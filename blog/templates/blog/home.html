@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polls</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 
+</head>
+<body>
+    <nav class="navbar navbar-light bg-primary justify-content-between">
+    <a class="navbar-brand" style="color: white;">Polls</a>
+    </nav>      
+    <br>
+    <h1 class='text-center'>Questions</h1>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                {% for i in question %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="text-center"><strong>{{ i.questionText }}</strong></h2>
+                            <hr class='mt-2 mb-3'>
+                            {% for choice in i.choices_set.all %}
+                                <form action="{% url 'vote' i.id %}" method="post">
+                                    {% csrf_token %}
+                                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                                        <label for="choice{{ forloop.counter }}">{{ choice.choiceText }}</label>
+                                        <input type="submit" value="Vote" class="float-right btn btn-primary btn-sm" onclick="myFunction()"> 
+                                        
+                                    </form>
+                                <hr>
+                            {% endfor %}
+                            <a href="{% url 'results' i.id %}" class="inline btn btn-info btn-block">Results</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+  
+<script>
+    function myFunction() {
+        alert("Your Vote Has Been Submitted!");
+    }
+</script>
+
+</body>
+</html>

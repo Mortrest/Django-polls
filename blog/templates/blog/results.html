@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polls</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-primary justify-content-between">
+    <a class="navbar-brand" style="color: white;">Polls</a>
+    </nav>      
+    <br>
+    <h1 class='text-center'>Questions</h1>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 m-auto">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3><strong>{{ question.questionText }}</strong></h3>
+                            <br>
+                            
+                            <ul class="list-group">
+                                {% for i in question.choices_set.all %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ i.choiceText }}
+                                    <span class="badge badge-primary badge-pill">{{ i.vote }}</span>
+                                    </li>
+                                {% endfor %}
+                              </ul>
+                              <br>
+                            <a href="{% url 'home' %}" class="inline btn btn-info btn-block">Back To Questions</a>
+                        </div>
+                    </div>
+                
+   
+</body>
+</html>
