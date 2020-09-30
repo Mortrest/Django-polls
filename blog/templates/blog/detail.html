@@ -46,36 +46,32 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 m-auto">
-                {% for i in question %}
                     <div class="card mb-3">
                         <div class="card-body">
-                            <a href="{% url 'detail' i.pk %}" style="color: black;">
-                            <h2 class="text-center"><strong>{{ i.questionText }}</strong></h2>
+                            <h2 class="text-center"><strong>{{ question.questionText }}</strong></h2>
                             <hr class='mt-2 mb-3'>
-                            </a>
-                            {% for choice in i.choices_set.all %}
-                                <form action="{% url 'vote' i.id %}" method="post">
+                            {% for choice in question.choices_set.all %}
+                                <form action="{% url 'vote' question.id %}" method="post">
                                     {% csrf_token %}
                                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                                        <label>{{ choice.choiceText }}</label>
+                                        <label for="choice{{ forloop.counter }}">{{ choice.choiceText }}</label>
                                         <input type="submit" value="Vote" class="float-right btn btn-primary btn-sm" onclick="myFunction()"> 
                                         
                                     </form>
-                                <hr>
                             {% endfor %}
-                            <a href="{% url 'results' i.id %}" class="inline btn btn-info btn-block">Results</a>
-
                             <hr>
-                            
-                            <form action="{% url 'like' i.id %}" method="post">
-                              {% csrf_token %}
-                                  <input type="submit" value="Like" class="btn btn-danger btn-block"> 
-                            </form>
-                              <h5 class="text-center" style="color: crimson;">{{ i.likes }} Like</h5> 
 
+                            <a href="{% url 'results' question.id %}" class="inline btn btn-info btn-block">Results</a>
+                            <hr>
+
+                            <form action="{% url 'like' question.id %}" method="post">
+                                {% csrf_token %}
+                                    <input type="submit" value="Like" class="btn btn-danger btn-block"> 
+                            </form>
+                                <h5 class="text-center" style="color: crimson;">{{ question.likes }} Like</h5> 
+                            
                         </div>
                     </div>
-                {% endfor %}
                 
   
 <script>
