@@ -40,7 +40,7 @@
          
     <br>
     <a href="{% url 'home' %}" style="color: black;">
-    <h1 class='text-center'>Questions</h1>
+    <h1 class='text-center'>Question #{{ question.id }}</h1>
     </a>
     <br>
     <div class="container">
@@ -48,31 +48,64 @@
             <div class="col-md-6 m-auto">
                     <div class="card mb-3">
                         <div class="card-body">
+                            <a href="" style="color: black;">
                             <h2 class="text-center"><strong>{{ question.questionText }}</strong></h2>
                             <hr class='mt-2 mb-3'>
+                            </a>
                             {% for choice in question.choices_set.all %}
                                 <form action="{% url 'vote' question.id %}" method="post">
                                     {% csrf_token %}
                                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                                        <label for="choice{{ forloop.counter }}">{{ choice.choiceText }}</label>
+                                        <label>{{ choice.choiceText }}</label>
                                         <input type="submit" value="Vote" class="float-right btn btn-primary btn-sm" onclick="myFunction()"> 
                                         
                                     </form>
+                                <hr>
                             {% endfor %}
-                            <hr>
-
                             <a href="{% url 'results' question.id %}" class="inline btn btn-info btn-block">Results</a>
+
                             <hr>
+                            
+                            <a href="{% url 'comments' question.id %}" class="btn btn-success btn-m float-right">Comments</a>
+                            
 
                             <form action="{% url 'like' question.id %}" method="post">
-                                {% csrf_token %}
-                                    <input type="submit" value="Like" class="btn btn-danger btn-block"> 
+                              {% csrf_token %}
+                                  <input type="submit" value="Like" class="btn btn-danger btn-m d-flex justify-content-between"> 
                             </form>
-                                <h5 class="text-center" style="color: crimson;">{{ question.likes }} Like</h5> 
-                            
+                              <h5 class="text-center" style="color: crimson;">{{ question.likes }} Like</h5> 
+
                         </div>
                     </div>
-                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             {%for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+
+                        <h4><strong>{{ comment.author }}:</strong> {{ comment.text }}</h4>
+                        <h6 style="color: darkgray;">{{ comment.datePublished }}</h6>
+
+
+
+                    </div>
+                </div>
+             {%endfor %}
   
 <script>
     function myFunction() {

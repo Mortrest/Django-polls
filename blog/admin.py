@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Question)
 admin.site.register(Choices)
 admin.site.register(UserClass)
+admin.site.register(Comment)

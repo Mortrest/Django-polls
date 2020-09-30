@@ -69,19 +69,55 @@ def homePage(request):
 
 def detailPage(request, pk):
     question = Question.objects.get(id=pk)
+    comments = question.comment_set.all()
 
     context = {
-        'question':question
+        'question':question,
+        'comments':comments,
+
     }
     return render(request,'blog/detail.html',context)
 
 def comments(request, pk):
     question = Question.objects.get(id=pk)
+    comments = question.comment_set.all()
+    new_comment = None
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.question = question
+            new_comment.author = UserClass.objects.get(user=request.user)
+
+            new_comment.save()
+    else:
+        form = CommentForm()
 
     context = {
-        'question':question
+        'question':question,
+        'comments':comments,
+        'form':form
     }
     return render(request,'blog/comments.html',context)
+
+
+
+
+def comment_post(request, pk):
+    question = Question.objects.get(pk=pk)
+    new_comment = None
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.author = request.user
+            new_comment.question = question
+            new_comment.save()
+    else:
+        form = CommentForm()
+
+    return redirect('comments', pk=pk)
 
 
 

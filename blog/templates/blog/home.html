@@ -67,7 +67,7 @@
 
                             <hr>
                             
-                            <a href="" class="btn btn-success btn-m float-right">Comments</a>
+                            <a href="{% url 'comments' i.id %}" class="btn btn-success btn-m float-right">Comments</a>
                             
 
                             <form action="{% url 'like' i.id %}" method="post">

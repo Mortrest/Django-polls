@@ -12,6 +12,10 @@ class UserClass(models.Model):
     text = models.CharField(max_length=400,null=True,blank=True)
 
 
+    def __str__(self):
+        return self.user.first_name
+
+
 
 class Question(models.Model):
     questionText = models.TextField(null=True)
@@ -35,7 +39,12 @@ class Choices(models.Model):
 
 class Comment(models.Model):
     text = models.TextField()
-    author = models.OneToOneField(UserClass, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(UserClass, on_delete=models.CASCADE, null=True)
     datePublished = models.DateTimeField(auto_now_add=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        ordering = ['-datePublished']
+
+    def __str__(self):
+        return self.author
