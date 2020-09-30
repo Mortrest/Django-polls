@@ -11,6 +11,6 @@ urlpatterns = [
     path('login/',loginPage, name = 'login'),
     path('logout/',logoutUser, name= 'logout'),
     path('detail/<int:pk>',detailPage, name= 'detail'),
-    
+    path('comments/<int:pk>',comments, name= 'comments'),
 
 ]

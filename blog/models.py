@@ -33,3 +33,9 @@ class Choices(models.Model):
         return self.choiceText
 
 
+class Comment(models.Model):
+    text = models.TextField()
+    author = models.OneToOneField(UserClass, on_delete=models.CASCADE, null=True)
+    datePublished = models.DateTimeField(auto_now_add=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+

@@ -75,6 +75,13 @@ def detailPage(request, pk):
     }
     return render(request,'blog/detail.html',context)
 
+def comments(request, pk):
+    question = Question.objects.get(id=pk)
+
+    context = {
+        'question':question
+    }
+    return render(request,'blog/comments.html',context)
 
 
 
