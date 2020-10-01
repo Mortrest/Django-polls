@@ -4,8 +4,10 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
-import json
+from django.contrib.auth.decorators import login_required
+from .decorators import *
 
+@unauth_user
 def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
@@ -21,6 +23,8 @@ def registerPage(request):
     }
     return render(request, 'blog/register.html',context)
 
+
+@unauth_user
 def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -37,12 +41,14 @@ def loginPage(request):
     }
     return render(request, 'blog/login.html', context)
 
+
+@unauth_user
 def logoutUser(request):
     logout(request)
     return redirect('login')		
 
 
-
+@login_required(login_url='login')
 def resultsPage(request, pk):
     question = Question.objects.get(pk=pk)
 
@@ -55,7 +61,7 @@ def resultsPage(request, pk):
 
 
 
-
+@login_required(login_url='login')
 def homePage(request):
     question = Question.objects.all()
     latest_question_list = Question.objects.order_by('datePublished')[:5]
@@ -67,6 +73,7 @@ def homePage(request):
     return render(request,'blog/home.html',context)
 
 
+@login_required(login_url='login')
 def detailPage(request, pk):
     question = Question.objects.get(id=pk)
     comments = question.comment_set.all()
@@ -78,6 +85,8 @@ def detailPage(request, pk):
     }
     return render(request,'blog/detail.html',context)
 
+
+@login_required(login_url='login')
 def comments(request, pk):
     question = Question.objects.get(id=pk)
     comments = question.comment_set.all()
@@ -103,7 +112,7 @@ def comments(request, pk):
 
 
 
-
+@login_required(login_url='login')
 def comment_post(request, pk):
     question = Question.objects.get(pk=pk)
     new_comment = None
@@ -121,6 +130,7 @@ def comment_post(request, pk):
 
 
 
+@login_required(login_url='login')
 def vote(request, pk):
     questionSelected = Question.objects.get(pk=pk)
     try:
@@ -135,6 +145,8 @@ def vote(request, pk):
         choiceSelected.save()
         return redirect('home')
 
+        
+@login_required(login_url='login')
 def likeView(request, pk):
     textList = UserClass.objects.get(id=request.user.id).text
     likeList = []

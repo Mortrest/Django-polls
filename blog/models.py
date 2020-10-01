@@ -13,7 +13,7 @@ class UserClass(models.Model):
 
 
     def __str__(self):
-        return self.user.first_name
+        return self.user.username
 
 
 
